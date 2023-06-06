@@ -45,26 +45,28 @@ babel.min.js
 
 ``` html
 <body>
-    <!-- 准备好容器 -->
+    <!-- 准备好容器container -->
     <div id="test">
-
     </div>
 </body>
-<!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
-<script src="../js/react.development.js" type="text/javascript"></script>
-<script src="../js/react-dom.development.js" type="text/javascript"></script>
+<!-- 引入react核心库 -->
+<script type="text/javascript" src="../js/react.development.js"></script>
+<!-- 引入react-dom，用于支持react操作dom -->
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<!-- 引入babel，用于将jsx转为js -->
+<script type="text/javascript" src="../js/babel.min.js"></script>
 
-<script src="../js/babel.min.js" type="text/javascript"></script>
-
-<!--这里使用了babel用来解析jsx语法-->
+<!--这里使用了babel用来解析jsx语法，注意type是babel-->
 <script type="text/babel">
         // 1.创建虚拟DOM
-        const VDOM = <h1>Hello</h1>  //这个地方使用的是JSX语法，不需要加""
-        // 2.渲染，如果有多个渲染同一个容器，后面的会将前面的覆盖掉
+        const VDOM = <h1>Hello</h1>  //这个地方使用的是JSX语法，不需要加单引号，因为不是字符串
+        // 2.渲染虚拟dom倒页面，如果有多个渲染同一个容器，后面的会将前面的覆盖掉
+	// ReactDOM.render(虚拟DOM,容器)
+	// 只有这句用了原生JS找节点的语法
         ReactDOM.render(VDOM,document.getElementById("test"));        
 </script>
 </html>
-```
+``` 
 
 这样，就会在页面中的这个div容器上添加这个h1.
 
