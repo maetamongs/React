@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>展开运算符</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // 1.展开数组
+        let arr1 = [1, 3, 5, 7, 9]
+        let arr2 = [2, 4, 6, 8, 10]
+        console.log(...arr1); // 1 3 5 7 9, 而不是[1, 3, 5, 7, 9]
+        // 2.连接两个数组
+        let arr3 = [...arr1, ...arr2] // 连接数组 
+
+        // 3.在函数中传递数组
+        // "reduce"通常用于对一个集合（如列表、数组或其他可迭代对象）中的元素进行累积操作，生成一个单一的值。
+        function sum(...numbers) {
+            return numbers.reduce((preValue, currentValue) => {
+                return preValue + currentValue
+            })
+        }
+        console.log(sum(1, 2, 3, 4));
+
+        // 4.构造字面量对象时使用展开语法
+        // 展开运算符不能展开对象，但是{...person}可以，字面量的形式复制一个对象，通过这个方法可以把对象都合并在一起
+        // 注意这里JS里不能，只是在react+babel里可以
+        let person = {name: 'tom', age: 18 }
+        let person2 = {...person } // 注意这里的花括号和react里的花括号不是一个作用，后者是分割作用
+
+        // console.log(...person);／／报错，展开运算符不能展开对象
+        person.name = 'jerry'
+        console.log(person2);
+        console.log(person);
+        // 合并
+        let person3 = { ...person, name: 'jack', adress: "berlin" }
+        console.log(person3); // adress 那个键值对 就会加在对象里了
+
+    </script>
+</body>
+
+</html>
