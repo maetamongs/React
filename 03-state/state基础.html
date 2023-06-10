@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>state</title>
+</head>
+
+<body>
+    <!-- 准备好容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心库和周边库 -->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+
+    <!--这里使用了js来创建虚拟DOM-->
+    <script type="text/babel">
+        //1.创建组件
+        class Weather extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { isHot: true, wind: "strong " };
+                // state初始时是null，null就是一个空对象，代表值的空缺
+                // 找到原型的changeWeather，根据changeWeather函数创建了一个changeWeather1的函数，并且将实例对象的this赋值过去
+                // this.changeWeather1 = this.changeWeather.bind(this);
+            }
+            //render会调用构造器1+n，1就是初始化的时候调用的，n就是每一次修改state的时候调用的】
+            render() {
+                //如果加dem()，就是将函数的回调值放入这个地方
+                //this.dem这里面加入this，并不是调用，只不过是找到了dem这个函数，在调用的时候相当于直接调用，并不是实例对象的调用
+                // 注意这里是C要大写，为了跟原生区别，为了事件处理不冲突
+                // 原生里直接“func（）” jsx里要用花括号
+                // 由于changeWeather是作为onClick的回调，所以不是通过实例调用的，是发生的windows环境中，点击就相当于直接调用
+                // 类中的方法，默认开启局部的严格模式，所以changeWeather中的this为undefined  
+                return <h1 onClick={this.changeWeather}>今天天气很{this.state.isHot ? "炎热" : "凉爽"},{wind}</h1>
+            }
+            // 这个语法是判断，然后ture：false
+            // 通过state的实例调用changeWeather的时候，this就是实例对象
+            // 这里还有个简写的方式 ：
+            // const {isHot}> = this.state
+            // return <h1>今天天气很{isHot ? "炎热" : "凉爽"}</h1>
+            changeWeather = () => {
+                const isHot = this.state.isHot;
+                // 状态（state）中的属性不能直接进行更改，需要借助内置API
+                // this.state.isHot = !isHot; 错误
+                // react的思想是把所有东西交给框架用，不给你直接改，所以必须使用setState对其进行修改
+                // 并且这是一个合并,所以wind不会丢，如果重名，就替换
+                // 可以这么理解，如果直接改的话是没有重新渲染页面的，js不能监听变量的变化是永远的痛，因此使用setState更新并且渲染
+                this.setState({ isHot: !isHot });
+            }
+        }
+        // 2.渲染，如果有多个渲染同一个容器，后面的会将前面的覆盖掉
+        ReactDOM.render(<Weather />, document.getElementById("test"));
+
+    </script>
+</body>
+
+</html>
