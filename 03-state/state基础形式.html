@@ -42,7 +42,7 @@
             // 这里还有个简写的方式 ：
             // const {isHot}> = this.state
             // return <h1>今天天气很{isHot ? "炎热" : "凉爽"}</h1>
-            changeWeather = () => {
+            changeWeather(){
                 const isHot = this.state.isHot;
                 // 状态（state）中的属性不能直接进行更改，需要借助内置API
                 // this.state.isHot = !isHot; 错误
