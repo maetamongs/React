@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量传递props</title>
+</head>
+
+<body>
+    <!-- 准备好容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心库和周边库 -->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Person extends React.Component {
+            render() {
+                const { name, age, sex } = this.props
+                return (
+                    // <ul>
+                    //     <li>{this.props.name}</li>
+                    //     <li>{this.props.age}</li>
+                    //     <li>{this.props.sex}</li>
+                    // </ul>
+                    <ul>
+                        <li>{name}</li>
+                        <li>{age}</li>
+                        <li>{sex}</li>
+                    </ul>
+                )
+            }
+        }
+        //在js中可以使用{...p}来复制一个对象，但是这个地方并不是复制对象，而是babel+react通过展开运算符，展开了一个对象
+        //但是只能在标签中进行使用
+        const p = { name: "张三", age: "18", sex: "女" }
+        // ReactDOM.render(<Person name="tom" age = "41" sex="男"/>,document.getElementById("div"));
+        // 以上可以直接把key value传进对象的props属性里，即使render没有定义要传入的数据
+        // ...p : 展开运算符 可以展开数组和对象
+        ReactDOM.render(<Person {...p} />, document.getElementById("test"));
+    </script>
+</body>
+
+</html>
