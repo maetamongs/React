@@ -1,64 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>props类型限制</title>
 </head>
+
 <body>
-    <div id = "div">
+    <!-- 准备好容器 -->
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
 
-    </div>
+    <!-- 引入react核心库和周边库 -->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+    <script type="text/javascript" src="../React-js/prop-type.js"></script>
 
+    <script type="text/babel">
+        // 创建组件，对标签属性进行类型、必要性的限制，指定默认标签属性值都放到这个类里面
+        // 用static
+        class Person extends React.Component {
+            static protoTypes = {
+                name: ProtoTypes.string.isRequired,
+                age: ProtoTypes.number,
+                speak: ProtoTypes.func
+            }
+            static defaultProps = {
+                sex: 'wu',
+                age: 18
+            }
+            render() {
+                // props 是只读的，可以运算，不能修改
+                const { name, age, sex } = this.props
+                return (
+                    <ul>
+                        <li>姓名：{name}</li>
+                        <li>年龄：{age + 1}</li>
+                        <li>性别：{sex}</li>
+                    </ul>
+                )
+            }
+        }
+
+        // 渲染组件到页面
+        ReactDOM.render(<Person name="tom" age={20} sex="男" speak={speak} />, document.getElementById("test1"));
+        ReactDOM.render(<Person name="jesty" age={18} sex="女" />, document.getElementById("test2"));
+
+        // 还有注意这里18要写成数值，而不是“18”字符串
+        const p = { name: "张三", age: 18, sex: "女" }
+        // 以上可以直接把key value传进对象的props属性里，即使render没有定义要传入的数据
+        // ...p : 展开运算符 可以展开数组和对象
+        ReactDOM.render(<Person {...p} />, document.getElementById("test3"));
+        function speak() {
+            console.log('speak');
+        }
+    </script>
 </body>
-<!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
-<script src="../React-js/react.development.js" type="text/javascript"></script>
-<script src="../React-js/react-dom.development.js" type="text/javascript"></script>
 
-<script src="../React-js/babel.min.js"></script>
-
-<!--引入对于组件标签的限制-->
-<script src="../React-js/prop-types.js"></script>
-
-<script type="text/babel">
-
-    
-    class Person extends React.Component{
-        render(){
-            //props是只读的
-            return (
-                <ul>
-                    <li>{this.props.name}</li>
-                    <li>{this.props.age}</li>
-                    <li>{this.props.sex}</li>
-                </ul>
-            )
-        }
-        //对组件的属性对其进行限制
-        static propTypes = {
-            name:PropTypes.string.isRequired,
-            sex:PropTypes.string,
-            speak:PropTypes.func
-        }
-        //指定默认的标签属性
-        static defaultProps = {
-            sex:"不男不女",
-            age:18
-        }   
-        
-    }
-    
-   
-    
-    //在js中可以使用{...p}来复制一个对象，但是这个地方并不是复制对象，而是babel+react通过展开运算符，展开了一个对象
-    //但是只能在标签中进行使用
-    //const p = {name:"张三",age:"18",sex:"女"}   {14}就代表的是数值
-    ReactDOM.render(<Person name="sss" age = {14} speak="8"/>,document.getElementById("div"));
-    //ReactDOM.render(<Person {...p}/>,document.getElementById("div"));
-
-    function speak(){
-        console.log("这个是一个函数")
-    }
-
-</script>
 </html>
