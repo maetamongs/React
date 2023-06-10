@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>类组件中的构造器和props</title>
+</head>
+
+<body>
+    <!-- 准备好容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心库和周边库 -->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+    <script type="text/javascript" src="../React-js/prop-type.js"></script>
+
+    <script type="text/babel">
+        // 函数式组件可以玩props，但是不能玩state和refs，之后有了hooks就可以玩state了
+        // 这里props限制那些也是可以用的
+        function Person(props) {
+            return (
+                <ul>
+                    <li>{props.name}</li>
+                    <li>{props.age}</li>
+                    <li>{props.sex}</li>
+                </ul>
+            )
+        }
+
+        //在js中可以使用{...p}来复制一个对象，但是这个地方并不是复制对象，而是babel+react通过展开运算符，展开了一个对象
+        //但是只能在标签中进行使用
+        //const p = {name:"张三",age:"18",sex:"女"}   {14}就代表的是数值
+        ReactDOM.render(<Person name="sss" age={14} />, document.getElementById("test"));
+
+    </script>
+</body>
+
+</html>
