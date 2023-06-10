@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>类中方法this的指向</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        class Person {
+            constructor(name, age) {
+                this.name = name
+                this.age = age
+            }
+            speak() {
+                // speak方法放在了 类的原型对象上 通过实例调用
+                console.log(this)
+            }
+        }
+        const p1 = new Person('Tom', 18)
+        p1.speak() // 通过实例调用speak方法
+        const x = p1.speak // 赋值语句，并没有调用speak函数，只是给function多了一个指向
+        x() // 这里是undefined 因为这里是直接调用
+        // 你引用的方法，已经在局部开了严格模式，导致它不敢指向window，所以指向了undefined
+    </script>
+</body>
+</html>
