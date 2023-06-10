@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS原生事件绑定复习</title>
+</head>
+
+<body>
+    <!-- 三种方式都可以，react更推荐第三种，尽量不用dom搜索的方式 -->
+    <button id="btn1">按钮1</button>
+    <button id="btn2">按钮2</button>
+    <button onclick="demo()" id="btn3">按钮3</button>
+
+    <script type="text/javascript">
+        const btn1 = document.getElementById('btn1')
+        btn1.addEventListener('click', () => {
+            alert('btn1 clicked')
+        })
+        // 更简单的方式
+        const btn2 = document.getElementById('btn2')
+        btn2.onclick = () => {
+            alert('btn2 clicked')
+        }
+        // 再简单一点
+        function demo() {
+            alert('btn3 clicked')
+        }
+    </script>
+</body>
+
+</html>
