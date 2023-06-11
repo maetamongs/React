@@ -1,74 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-   
-
+    <title>生命周期(v.17)</title>
 </head>
-<body>
-    <div id = "div" >
 
-    </div>
+<body>
+    <!-- 准备好容器 -->
+    <div id="div"></div>
+
+    <!-- 引入react核心库和周边库 -->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+    <script src="../React-js/prop-types.js"></script>
+
+    <script type="text/babel">
+        // 把内容render到页面上，本质上是：挂载 mount （中文语境理解为钩子）+ 卸载 unmount
+        // 生命周期回调函数 <=> 生命周期钩子函数 <=> 生命周期函数
+        class Life extends React.Component {
+            /*
+               组件从创建到死亡，会经过一些特定的阶段
+                React组件中包含一系列钩子函数{生命周期回调函数}，会在特定的时刻调用
+                我们在定义组件的时候，会在特定的声明周期回调函数中，做特定的工作
+            */
+
+            //定义透明度
+            state = { opacity: 1 };
+
+            stop = () => {
+                //卸载组件
+                ReactDOM.unmountComponentAtNode(document.getElementById("div"))
+            }
+
+            //在组建挂载(渲染之后进行)，挂载完毕
+            componentDidMount() {
+                //定时器
+                // this.timer是为了把函数挂到实例上，就可以清除了
+                this.timer = setInterval(() => {
+                    // 注意const声明的变量不能再改了，所以用let
+                    // 因为程序里0.1+0.2不等于0.3，所以要写<=0
+                    // 注意避免无限递归的问题，因为render每隔200ms一直执行，所以不能放render里
+                    // 因为定时器一开始就一直在跑，所以卸载组件的时候要清楚定时器
+                    // 获取原始状态
+                    let { opacity } = this.state;
+                    opacity -= 0.1;
+                    if (opacity <= 0) opacity = 1;
+                    // 设置新的透明度
+                    this.setState({ opacity });
+                }, 200); // 200ms
+            }
+
+            // 组件将要卸载
+            // 先调还是后调跟写的代码顺序没有关系，react会在合适的时候调用
+            componentWillUnmount() {
+                // 清除定时器
+                clearInterval(this.Timer);
+            }
+            // 初始化渲染、状态更新之后
+            render() {
+                return (
+                    <div>
+                        <h2 style={{ opacity: this.state.time }}>声明周期</h2>
+                        <button onClick={this.stop}>结束</button>
+                    </div>
+                )
+            }
+        }
+        // 渲染组件
+        ReactDOM.render(<Life />, document.getElementById("div"));
+
+    </script>
 
 </body>
-<!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
-<script src="../React-js/react.development.js" type="text/javascript"></script>
-<script src="../React-js/react-dom.development.js" type="text/javascript"></script>
 
-<script src="../React-js/babel.min.js"></script>
-
-<!--引入对于组件标签的限制-->
-<script src="../React-js/prop-types.js"></script>
-
-<script type="text/babel">
-
-    class Life extends React.Component{
-        /*
-           组件从创建到死亡，会经过一些特定的阶段
-            React组件中包含一系列钩子函数{生命周期回调函数}，会在特定的时刻调用
-            我们在定义组件的时候，会在特定的声明周期回调函数中，做特定的工作
-        */
-
-        //定义透明度
-        state = {time:1};
-
-        stop = () => {
-            //卸载组件
-            ReactDOM.unmountComponentAtNode(document.getElementById("div"))
-          
-        }
-
-        //在组建挂载(渲染之后进行)
-        componentDidMount(){
-            //定时器
-            this.Inter = setInterval(()=>{
-                let {time} = this.state;
-                time -= 0.1;
-                if(time <= 0){
-                    time = 1;
-                }
-                this.setState({time:time});
-            },200);
-        }
-
-        //组件被卸载之后执行
-        componentWillUnmount(){
-            clearInterval(this.Inter);
-        }
-
-        render(){
-            return (
-                <div>
-                    <h2 style = {{opacity:this.state.time}}>声明周期</h2>
-                    <button onClick = {this.stop}>结束</button>
-                </div>
-            )
-        }
-    }
-
-    ReactDOM.render(<Life />,document.getElementById("div"));
-
-</script>
 </html>
