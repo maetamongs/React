@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+</head>
+
+<body>
+    <!-- 准备好容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心库和周边库 -->
+    <script type="text/javascript" src="../React-js/react.development.js"></script>
+    <script type="text/javascript" src="../React-js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../React-js/babel.min.js"></script>
+    <script type="text/javascript" src="../React-js/prop-type.js"></script>
+
+    <script type="text/babel">
+        class Demo extends React.Component {
+            // React.createRef()调用后可以返回一个容器，该容器可以存储被ref所标识的节点
+            // 相当于对于回调函数创建了一个相应的API，省略了中间环节
+            // react最推荐的方式
+
+            MyRef = React.createRef();
+            MyRef1 = React.createRef();
+
+            showData = () => {
+                //创建之后，将自身节点，传入current中
+                // 但是不能所有东西都往api存，因为这个容器是专人专用的，只能存一个， 所以每一个ref都需要创建这个
+                console.log(this.MyRef); // {current:input}
+                alert(this.MyRef.current.value); // 拿到value
+
+            }
+            showData1 = () => {
+                console.log(this.MyRef1);
+                alert(this.MyRef1.current.value);
+
+            }
+
+            render() {
+                return (
+                    <div>
+                        {/* 把当前ref所在的节点input存在这个MyRef容器里 */}
+                        <input ref={this.MyRef} type="text" placeholder="点击弹出" />&nbsp;
+                        <button onClick={this.showData}>点击</button>&nbsp;
+                        <input onBlur={this.showData1} ref={this.MyRef1} type="text" placeholder="失去焦点提示数据" />
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Demo />, document.getElementById("test"));
+
+
+    </script>
+</body>
+
+</html>
